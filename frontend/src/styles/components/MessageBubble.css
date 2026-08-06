@@ -1,0 +1,197 @@
+/* MessageBubble: 사용자(우측) / AI(좌측) 말풍선 */
+
+.message-bubble {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  max-width: min(88%, 620px);
+  animation: bubble-in var(--duration-base) var(--ease-out);
+}
+
+.message-bubble.is-user {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.message-bubble.is-assistant {
+  align-self: flex-start;
+  align-items: flex-start;
+}
+
+@keyframes bubble-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ----- 상단 메타 (작성자 / 시각) ----- */
+.message-bubble__meta {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  padding: 0 var(--space-2);
+  font-size: var(--text-xs);
+}
+
+.message-bubble__author {
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.message-bubble__time {
+  color: var(--color-text-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ----- 본문 ----- */
+.message-bubble__body {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-md);
+  line-height: 1.6;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.message-bubble.is-user .message-bubble__body {
+  background: var(--bubble-user-bg);
+  color: var(--bubble-user-text);
+  border-bottom-right-radius: var(--radius-sm);
+  box-shadow: var(--shadow-xs);
+}
+
+.message-bubble.is-assistant .message-bubble__body {
+  background: var(--bubble-assistant-bg);
+  color: var(--bubble-assistant-text);
+  border-bottom-left-radius: var(--radius-sm);
+  box-shadow: inset 0 0 0 1px var(--bubble-assistant-border), var(--shadow-xs);
+}
+
+/* ----- 하단 (모델명 / 응답 시간 / 복사) ----- */
+.message-bubble__footer {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: 0 var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+}
+
+.message-bubble__tag {
+  font-variant-numeric: tabular-nums;
+}
+
+.message-bubble__tag + .message-bubble__tag::before {
+  content: '·';
+  margin-right: var(--space-2);
+}
+
+.message-bubble__copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-text-tertiary);
+  opacity: 0;
+  transition:
+    opacity var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.message-bubble:hover .message-bubble__copy,
+.message-bubble__copy:focus-visible {
+  opacity: 1;
+}
+
+.message-bubble__copy:hover {
+  color: var(--color-accent);
+}
+
+/* ----- 본문 안의 마크다운 (MessageContent) ----- */
+.message-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.message-content__paragraph {
+  margin: 0;
+  white-space: normal;
+}
+
+.message-content__inline-code {
+  padding: 1px 5px;
+  border-radius: 5px;
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  background: var(--color-surface-sunken);
+  color: var(--color-text);
+}
+
+.message-bubble.is-user .message-content__inline-code {
+  background: rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+}
+
+.message-content__code {
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: #1e1e22;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.message-content__code-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-1) var(--space-3);
+  background: rgba(255, 255, 255, 0.05);
+  font-size: var(--text-xs);
+  color: #a1a1a6;
+}
+
+.message-content__code-language {
+  font-family: var(--font-mono);
+}
+
+.message-content__code-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #a1a1a6;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.message-content__code-copy:hover {
+  color: #ffffff;
+}
+
+.message-content__code pre {
+  margin: 0;
+  padding: var(--space-3);
+  overflow-x: auto;
+}
+
+.message-content__code code {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  color: #f5f5f7;
+  white-space: pre;
+}
+
+@media (max-width: 640px) {
+  .message-bubble {
+    max-width: 94%;
+  }
+
+  /* 터치 환경에서는 복사 버튼을 항상 보여준다. */
+  .message-bubble__copy {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,101 @@
+/* ChatComposer: 화면 하단에 고정되는 입력창 */
+
+.chat-composer {
+  flex: 0 0 auto;
+  padding: var(--space-3) var(--space-5) var(--space-4);
+  background: var(--color-surface-translucent);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-top: 1px solid var(--color-separator);
+  /* 모바일 브라우저 하단 영역(홈 인디케이터)을 피한다. */
+  padding-bottom: max(var(--space-4), env(safe-area-inset-bottom));
+}
+
+.chat-composer__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.chat-composer__box {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  border: 1px solid var(--color-separator-strong);
+  box-shadow: var(--shadow-sm);
+  transition:
+    border-color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
+}
+
+.chat-composer__box:focus-within {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-ring);
+}
+
+.chat-composer__box.has-error {
+  border-color: var(--color-danger);
+  box-shadow: 0 0 0 3px var(--color-danger-soft);
+}
+
+.chat-composer__input {
+  flex: 1;
+  min-width: 0;
+  max-height: 200px;
+  padding: var(--space-2);
+  border: none;
+  background: transparent;
+  color: var(--color-text);
+  font-size: var(--text-md);
+  line-height: 1.55;
+  resize: none;
+  overflow-y: auto;
+}
+
+.chat-composer__input:focus {
+  outline: none;
+}
+
+.chat-composer__input::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.chat-composer__send,
+.chat-composer__stop {
+  flex: 0 0 36px;
+}
+
+.chat-composer__stop {
+  background: var(--color-surface-sunken);
+  color: var(--color-text);
+  box-shadow: inset 0 0 0 1px var(--color-separator-strong);
+}
+
+.chat-composer__stop:hover {
+  color: var(--color-danger);
+}
+
+.chat-composer__help {
+  padding: 0 var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+}
+
+.chat-composer__help.is-error {
+  color: var(--color-danger);
+  font-weight: 510;
+}
+
+@media (max-width: 640px) {
+  .chat-composer {
+    padding-inline: var(--space-3);
+  }
+
+  /* 모바일에서 입력 시 확대되지 않도록 16px 이상을 유지한다. */
+  .chat-composer__input {
+    font-size: 16px;
+  }
+}

@@ -1,0 +1,213 @@
+/* Sidebar: 대화 목록 + 모델 설정을 담는 왼쪽 패널 */
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--space-4);
+  gap: var(--space-3);
+  background: var(--color-canvas);
+  border-right: 1px solid var(--color-separator);
+}
+
+.sidebar__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.sidebar__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.sidebar__brand-mark {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  border-radius: var(--radius-sm);
+  color: #ffffff;
+  background: var(--bubble-user-bg);
+  box-shadow: var(--shadow-xs);
+}
+
+.sidebar__brand-title {
+  font-size: var(--text-md);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+}
+
+.sidebar__brand-subtitle {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+/* 사이드바 닫기 버튼은 모바일에서만 보인다. */
+.sidebar__close {
+  display: none;
+  flex: 0 0 auto;
+}
+
+/* ----- 탭 (대화 / 모델 설정) ----- */
+.sidebar__tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  padding: 2px;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-sunken);
+}
+
+.sidebar__tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  height: 30px;
+  border-radius: calc(var(--radius-sm) - 2px);
+  font-size: var(--text-sm);
+  font-weight: 590;
+  color: var(--color-text-secondary);
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.sidebar__tab:hover {
+  color: var(--color-text);
+}
+
+.sidebar__tab.is-active {
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: var(--shadow-xs);
+}
+
+/* ----- 패널 공통 ----- */
+.sidebar__panel {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  gap: var(--space-3);
+}
+
+.sidebar__new {
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+/* ----- 대화 목록 ----- */
+.sidebar__list {
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  padding: 0 2px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sidebar__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  border-radius: var(--radius-sm);
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+
+.sidebar__item:hover {
+  background: var(--color-surface-sunken);
+}
+
+.sidebar__item.is-active {
+  background: var(--color-accent-soft);
+}
+
+.sidebar__item-button {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-2) var(--space-3);
+  text-align: left;
+  border-radius: var(--radius-sm);
+}
+
+.sidebar__item-title {
+  font-size: var(--text-sm);
+  font-weight: 510;
+  color: var(--color-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebar__item.is-active .sidebar__item-title {
+  color: var(--color-accent);
+  font-weight: 590;
+}
+
+.sidebar__item-meta {
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebar__item-delete {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  margin-right: var(--space-2);
+  flex: 0 0 28px;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-tertiary);
+  opacity: 0;
+  transition:
+    opacity var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.sidebar__item:hover .sidebar__item-delete,
+.sidebar__item-delete:focus-visible {
+  opacity: 1;
+}
+
+.sidebar__item-delete:hover {
+  color: var(--color-danger);
+}
+
+.sidebar__footer {
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--color-separator);
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    background: var(--color-surface);
+  }
+
+  .sidebar__close {
+    display: grid;
+    place-items: center;
+  }
+
+  /* 터치 환경에서는 삭제 버튼을 항상 보여준다. */
+  .sidebar__item-delete {
+    opacity: 1;
+  }
+}

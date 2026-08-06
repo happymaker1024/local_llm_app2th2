@@ -1,0 +1,97 @@
+/*
+ * layout.css
+ * 사이드바 + 본문으로 구성된 앱의 큰 골격을 담당한다.
+ * 데스크톱에서는 2단, 모바일에서는 사이드바가 서랍(drawer)으로 바뀐다.
+ */
+
+.app-shell {
+  display: flex;
+  height: 100dvh;
+  background: var(--color-canvas);
+  overflow: hidden;
+}
+
+.app-shell__sidebar {
+  flex: 0 0 var(--sidebar-width);
+  width: var(--sidebar-width);
+  min-width: 0;
+  height: 100%;
+}
+
+.app-shell__main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  background: var(--color-surface);
+  border-left: 1px solid var(--color-separator);
+}
+
+/* 헤더/입력창 사이의 스크롤되는 대화 영역 */
+.app-shell__body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 본문 안에서 가독성을 위해 폭을 제한하는 컨테이너 */
+.content-column {
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+}
+
+/* 모바일에서 사이드바를 열었을 때 뒤를 덮는 반투명 레이어 */
+.app-shell__overlay {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .app-shell__sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 30;
+    height: 100dvh;
+    box-shadow: var(--shadow-lg);
+    transform: translateX(-100%);
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+
+  .app-shell__sidebar.is-open {
+    transform: translateX(0);
+  }
+
+  .app-shell__main {
+    border-left: none;
+  }
+
+  .app-shell__overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(2px);
+    border: none;
+    animation: overlay-fade-in var(--duration-base) var(--ease-out);
+  }
+}
+
+@media (max-width: 480px) {
+  .app-shell__sidebar {
+    flex-basis: 86vw;
+    width: 86vw;
+  }
+}
+
+@keyframes overlay-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
