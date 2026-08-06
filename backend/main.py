@@ -3,6 +3,7 @@ import uvicorn
 
 from ollama_chat import call_ollama_chat, get_ollama_models
 from schema import ChatRequest, ChatResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 # vscode 단축키 ->, ctrl + . : 모듈 자동 import 단축키(코드함수에 커서를 두고)
 
@@ -12,6 +13,17 @@ app = FastAPI(
     description="Ollama 기반 로컬 LLM 채팅 백엔드 API",
     version="0.1.0",
 )
+
+app.add_middleware(
+    CORSMiddleware,
+    # allow_origins=["http://localhost:5173"],
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 
 # /chat API 구현
 # http://localhost:8000/chat
