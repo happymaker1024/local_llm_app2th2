@@ -4,7 +4,8 @@
  * 화면 컴포넌트는 fetch를 직접 쓰지 않고 이 파일의 함수만 사용한다.
  */
 
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000').replace(/\/+$/, '')
+// const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000').replace(/\/+$/, '')
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "/api");
 
 /** 로컬 LLM은 응답이 느릴 수 있어 넉넉하게 잡는다. (2분) */
 const CHAT_TIMEOUT_MS = 120_000
