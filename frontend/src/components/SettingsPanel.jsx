@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { DEFAULT_SETTINGS, PARAMETER_META, clampNumber } from '../constants/chatDefaults'
+import { promptModes } from '../api/promptModes'
 import Icon from './Icon'
 
 /**
@@ -8,9 +9,38 @@ import Icon from './Icon'
  * 각 항목의 기본값과 허용 범위를 함께 보여주어 처음 쓰는 사람도 이해할 수 있게 한다.
  */
 function SettingsPanel({ settings, onSettingChange, onResetSettings, isDefaultSettings, isSending }) {
+  const selectedPromptMode = useMemo(() => {
+    const matchedMode = Object.entries(promptModes).find(([, mode]) => mode.prompt === settings.systemPrompt)
+    return matchedMode ? matchedMode[0] : 'custom'
+  }, [settings.systemPrompt])
+
   return (
     <div className="settings-panel">
       <section className="settings-panel__section">
+        <label className="field" htmlFor="system-prompt-mode">
+          <span className="field__label">시스템 프롬프트 선택</span>
+          <select
+            id="system-prompt-mode"
+            className="select"
+            value={selectedPromptMode}
+            onChange={(event) => {
+              const modeKey = event.target.value
+              if (modeKey === 'custom') {
+                return
+              }
+              onSettingChange('systemPrompt', promptModes[modeKey].prompt)
+            }}
+          >
+            <option value="custom">직접 입력</option>
+            {Object.entries(promptModes).map(([key, mode]) => (
+              <option key={key} value={key}>
+                {mode.label}
+              </option>
+            ))}
+          </select>
+          <span className="field__hint">기본 프롬프트를 선택하면 텍스트 박스에 자동으로 입력됩니다.</span>
+        </label>
+
         <label className="field" htmlFor="system-prompt">
           <span className="field__label">시스템 프롬프트</span>
           <textarea
